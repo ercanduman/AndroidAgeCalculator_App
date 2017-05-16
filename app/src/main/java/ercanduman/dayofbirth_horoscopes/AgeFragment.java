@@ -106,6 +106,11 @@ public class AgeFragment extends Fragment {
             bDateTextView.setText(getString(R.string.birthdate) + " " +
                         selectedDay + "." + (selectedMonth + 1) + "." + selectedYear);
 
+            //Display the day of birth (selected day)
+            dayofBTextView.setText(getString(R.string.dayOfBirth) + " " + calendar.getDisplayName(Calendar.DAY_OF_WEEK,
+                        Calendar.LONG, Locale.getDefault()) + "!");
+
+
 
             //calculate age
 
