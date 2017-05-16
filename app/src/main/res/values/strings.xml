@@ -2,4 +2,8 @@
     <string name="app_name">Day of Birth, Horoscopes</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="title_section1">Age</string>
+    <string name="title_section2">Horoscope</string>
+
 </resources>
