@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import java.util.Calendar;
 import java.util.Locale;
 
 public class AgeFragment extends Fragment {
@@ -26,6 +25,8 @@ public class AgeFragment extends Fragment {
     View view;
     DialogFragment dialogFragment;
 
+    AgeCalculator ageCalculator;
+
     public AgeFragment() {
         // Required empty public constructor
     }
@@ -36,8 +37,9 @@ public class AgeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_age, container, false);
 
-        initializeViews();
+        ageCalculator = new AgeCalculator();
 
+        initializeViews();
         return view;
     }
 
@@ -96,23 +98,30 @@ public class AgeFragment extends Fragment {
             startYear = selectedYear;
             startMonth = selectedMonth;
             startDay = selectedDay;
-
             Locale.setDefault(getResources().getConfiguration().locale);
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(startYear, startMonth, startDay);
+            // current date
+            todayTextView.setText(getString(R.string.today) + " " + ageCalculator.getCurrentDay());
 
             // display birthday
-            bDateTextView.setText(getString(R.string.birthdate) + " " +
-                        selectedDay + "." + (selectedMonth + 1) + "." + selectedYear);
+            bDateTextView.setText(getString(R.string.birthdate) + " " + selectedDay + "." +
+                        //since month starts from 0, must added +1
+                        (selectedMonth + 1) + "." + selectedYear);
 
-            //Display the day of birth (selected day)
-            dayofBTextView.setText(getString(R.string.dayOfBirth) + " " + calendar.getDisplayName(Calendar.DAY_OF_WEEK,
-                        Calendar.LONG, Locale.getDefault()) + "!");
-
-
+            //send input variables to ageCalculator class for calculations
+            ageCalculator.getUserInputs(startYear, startMonth, startDay);
 
             //calculate age
+            ageCalculator.calculateYear();
+            ageCalculator.calculateMonth();
+            ageCalculator.calculateDay();
+
+            //Display the day of birth (selected day)
+            dayofBTextView.setText(getString(R.string.dayOfBirth) + " " + ageCalculator.getDayOfBirth() + "!");
+
+            //Display Age
+            ageTextView.setText(getString(R.string.title_section1) + ": " + ageCalculator.getResultYear());
+
 
         }
     }
