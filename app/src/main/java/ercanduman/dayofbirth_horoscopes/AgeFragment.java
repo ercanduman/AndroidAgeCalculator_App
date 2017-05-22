@@ -59,6 +59,10 @@ public class AgeFragment extends Fragment {
 
             }
         });
+
+        // Show today's date always
+        // current date
+        todayTextView.setText(getString(R.string.today) + " " + ageCalculator.getCurrentDay());
     }
 
     private void triggerDatePickerDialog() {
@@ -79,9 +83,9 @@ public class AgeFragment extends Fragment {
     private class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
         DatePickerDialog datePickerDialog;
 
-        int startYear = 1972;
-        int startMonth = 1;
-        int startDay = 29;
+        int startYear = 1990;
+        int startMonth = 4;
+        int startDay = 6;
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -100,9 +104,6 @@ public class AgeFragment extends Fragment {
             startDay = selectedDay;
             Locale.setDefault(getResources().getConfiguration().locale);
 
-            // current date
-            todayTextView.setText(getString(R.string.today) + " " + ageCalculator.getCurrentDay());
-
             // display birthday
             bDateTextView.setText(getString(R.string.birthdate) + " " + selectedDay + "." +
                         //since month starts from 0, must added +1
@@ -117,11 +118,13 @@ public class AgeFragment extends Fragment {
             ageCalculator.calculateDay();
 
             //Display the day of birth (selected day)
-            dayofBTextView.setText(getString(R.string.dayOfBirth) + " " + ageCalculator.getDayOfBirth() + "!");
+            dayofBTextView.setText(getString(R.string.dayOfBirth) + ageCalculator.getDayOfBirth() + "!");
 
             //Display Age
             ageTextView.setText(getString(R.string.title_section1) + ": " + ageCalculator.getResultYear());
 
+            // display remaining days for next birthday
+            remaininDaysTextView.setText(getString(R.string.remainingDays) + ageCalculator.calculateRemainingDays((selectedMonth + 1), selectedDay));
 
         }
     }
