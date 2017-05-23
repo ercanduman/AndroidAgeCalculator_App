@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -30,6 +31,8 @@ public class AgeFragment extends Fragment {
     public AgeFragment() {
         // Required empty public constructor
     }
+
+    private OnFragmentInteractionListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,6 +115,10 @@ public class AgeFragment extends Fragment {
             //send input variables to ageCalculator class for calculations
             ageCalculator.getUserInputs(startYear, startMonth, startDay);
 
+            //pass variables to Horoscopes fragment via  OnFragmentInteraction listener
+            listener.onFragmentInteraction(selectedDay, selectedMonth + 1);
+//            Log.v("DatePickerFragment", "d: " + selectedDay + " m: " + selectedMonth);
+
             //calculate age
             ageCalculator.calculateYear();
             ageCalculator.calculateMonth();
@@ -125,7 +132,34 @@ public class AgeFragment extends Fragment {
 
             // display remaining days for next birthday
             remaininDaysTextView.setText(getString(R.string.remainingDays) + ageCalculator.calculateRemainingDays((selectedMonth + 1), selectedDay));
-
         }
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            listener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                        + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (listener != null) listener = null;
+    }
+
+    /**
+     * A simple {@link Fragment} subclass.
+     * Activities that contain this fragment must implement the
+     * {@link AgeFragment.OnFragmentInteractionListener} interface
+     * to handle interaction events.
+     */
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(int day, int month);
     }
 }

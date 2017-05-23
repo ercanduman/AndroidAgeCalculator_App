@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AgeFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //MENU BAR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -93,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //implementing method for fragments communication
+    @Override
+    public void onFragmentInteraction(int day, int month) {
+        HoroscopeFragment fragment = (HoroscopeFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, 1);
+        fragment.sentVariables(day, month);
+//        Log.v("onFragmentInteraction", "d: " + day + " m: " + month);
     }
 
     /**
